@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Background Animations with Photo</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      font-size: 2em;
+    }
+    .middle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 300px;
+      max-height: 300px;
+      pointer-events: none; /* so clicks go through to + button */
+    }
+    .plus-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4em;
+      cursor: pointer;
+      z-index: 10;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sunset -->
+<section id="sunset" style="background: linear-gradient(to bottom, #2980b9, #f39c12);">
+  <div class="plus-btn" onclick="choosePhoto('sunset')">+</div>
+  <img class="middle" id="sunset-img" src="">
+</section>
+
+<!-- Meadow -->
+<section id="meadow" style="background: linear-gradient(to top, #27ae60, #2ecc71);">
+  <div class="plus-btn" onclick="choosePhoto('meadow')">+</div>
+  <img class="middle" id="meadow-img" src="">
+</section>
+
+<!-- Rod Laver Arena -->
+<section id="rodlaver" style="background: linear-gradient(to bottom, #1abc9c, #16a085);">
+  <div class="plus-btn" onclick="choosePhoto('rodlaver')">+</div>
+  <img class="middle" id="rodlaver-img" src="">
+</section>
+
+<!-- Minecraft -->
+<section id="minecraft" style="background: linear-gradient(to bottom, #8e44ad, #9b59b6);">
+  <div class="plus-btn" onclick="choosePhoto('minecraft')">+</div>
+  <img class="middle" id="minecraft-img" src="">
+</section>
+
+<!-- Rock Stage -->
+<section id="rockstage" style="background: linear-gradient(to bottom, #c0392b, #e74c3c);">
+  <div class="plus-btn" onclick="choosePhoto('rockstage')">+</div>
+  <img class="middle" id="rockstage-img" src="">
+</section>
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="loadPhoto(event)">
+
+<script>
+  let currentSection = '';
+
+  function choosePhoto(sectionId) {
+    currentSection = sectionId;
+    document.getElementById('fileInput').click(); // open file picker
+  }
+
+  function loadPhoto(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const imgURL = URL.createObjectURL(file);
+    document.getElementById(currentSection + '-img').src = imgURL;
+  }
+</script>
+
+</body>
+</html>
