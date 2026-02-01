@@ -1,103 +1,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Background Animations with Photo</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      overflow-x: hidden;
-    }
-    section {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      color: white;
-      font-size: 2em;
-    }
-    .middle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 300px;
-      max-height: 300px;
-      pointer-events: none; /* so clicks go through to + button */
-    }
-    .plus-btn {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 4em;
-      cursor: pointer;
-      z-index: 10;
-      background: rgba(0,0,0,0.3);
-      border-radius: 50%;
-      width: 80px;
-      height: 80px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      user-select: none;
-    }
-  </style>
-</head>
-<body>
+<meta charset="UTF-8">
+<title>Animated Background Worlds</title>
 
-<!-- Sunset -->
-<section id="sunset" style="background: linear-gradient(to bottom, #2980b9, #f39c12);">
-  <div class="plus-btn" onclick="choosePhoto('sunset')">+</div>
-  <img class="middle" id="sunset-img" src="">
-</section>
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial, sans-serif;
+  background:black;
+}
 
-<!-- Meadow -->
-<section id="meadow" style="background: linear-gradient(to top, #27ae60, #2ecc71);">
-  <div class="plus-btn" onclick="choosePhoto('meadow')">+</div>
-  <img class="middle" id="meadow-img" src="">
-</section>
+/* ---------- BUTTON BAR ---------- */
+#buttons{
+  position:fixed;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:100;
+}
+#buttons button{
+  margin:4px;
+  padding:10px 14px;
+  font-size:14px;
+  cursor:pointer;
+}
 
-<!-- Rod Laver Arena -->
-<section id="rodlaver" style="background: linear-gradient(to bottom, #1abc9c, #16a085);">
-  <div class="plus-btn" onclick="choosePhoto('rodlaver')">+</div>
-  <img class="middle" id="rodlaver-img" src="">
-</section>
+/* ---------- SCENES ---------- */
+.scene{
+  position:absolute;
+  inset:0;
+  display:none;
+  overflow:hidden;
+}
+.scene.active{display:block;}
 
-<!-- Minecraft -->
-<section id="minecraft" style="background: linear-gradient(to bottom, #8e44ad, #9b59b6);">
-  <div class="plus-btn" onclick="choosePhoto('minecraft')">+</div>
-  <img class="middle" id="minecraft-img" src="">
-</section>
+/* ---------- CENTER IMAGE ---------- */
+.plus{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:rgba(0,0,0,0.5);
+  color:white;
+  font-size:70px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:20;
+}
+.center-img{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  max-width:300px;
+  max-height:300px;
+  z-index:15;
+}
 
-<!-- Rock Stage -->
-<section id="rockstage" style="background: linear-gradient(to bottom, #c0392b, #e74c3c);">
-  <div class="plus-btn" onclick="choosePhoto('rockstage')">+</div>
-  <img class="middle" id="rockstage-img" src="">
-</section>
+/* ---------- SUNSET ---------- */
+#sunset{
+  background:linear-gradient(#3498db,#f39c12);
+}
+#sun{
+  position:absolute;
+  width:120px;
+  height:120px;
+  background:yellow;
+  border-radius:50%;
+  top:-140px;
+  left:50%;
+  transform:translateX(-50%);
+  animation:sunDown 20s linear infinite;
+}
+@keyframes sunDown{
+  from{top:-140px;}
+  to{top:110%;}
+}
 
-<!-- Hidden file input -->
-<input type="file" id="fileInput" accept="image/*" style="display:none" onchange="loadPhoto(event)">
+/* ---------- MEADOW ---------- */
+#meadow{
+  background:linear-gradient(#87ceeb,#2ecc71);
+}
+.grass{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:40%;
+  background:#27ae60;
+  animation:sway 3s ease-in-out infinite alternate;
+}
+@keyframes sway{
+  from{transform:skewX(-2deg);}
+  to{transform:skewX(2deg);}
+}
 
-<script>
-  let currentSection = '';
-
-  function choosePhoto(sectionId) {
-    currentSection = sectionId;
-    document.getElementById('fileInput').click(); // open file picker
-  }
-
-  function loadPhoto(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const imgURL = URL.createObjectURL(file);
-    document.getElementById(currentSection + '-img').src = imgURL;
-  }
-</script>
-
-</body>
-</html>
+/* ---------- ROD LAVER ---------- */
+#rod{
+  background:#1abc9c;
+}
+.player{
+  position:absolute;
+  bottom:20%;
+  width:60px;
+  height:120px;
+  background:#2c3e50;
+}
+#p1{left:20%;}
+#p2{right:20%;}
+#ball{
+  position:absolute;
+  width:25px;
+  height:25px;
+  background:yellow;
+  border-radius:50%;
+  top:40%;
+  animation:ballMove 2s linear infinite alternate;
+}
+@keyframes ballMove{
+  from{left:25
